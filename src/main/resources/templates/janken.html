@@ -7,11 +7,19 @@
 </head>
 
 <body>
+  <h1>Janken GAME!</h1>
   <div th:if="${username}">
-    Hi [[${username}]]
+    Hi [[${username}]]<br>
+    <a th:href="@{/battle(hand='グー')}">グー</a>
+    <a th:href="@{/battle(hand='チョキ')}">チョキ</a>
+    <a th:href="@{/battle(hand='パー')}">パー</a>
   </div>
-  <div th:if="${username == null}">
 
+  <div th:if="${userHand}">
+    <h2>対戦結果</h2>
+    <p>あなたの手: [[${userHand}]]</p>
+    <p>相手の手: [[${cpuHand}]]</p>
+    <p>結果: [[${result}]]</p>
   </div>
 </body>
 
