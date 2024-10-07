@@ -18,6 +18,29 @@ public class JankenController {
   @GetMapping("/janken")
   public String Janken() {
     return "janken.html";
+
+  }
+
+  @GetMapping("/battle")
+  public String battle(@RequestParam("hand") String userHand, ModelMap model) {
+    String cpuHand = "グー";
+    String result;
+
+    if (userHand.equals(cpuHand)) {
+      result = "引き分け";
+    } else if ((userHand.equals("グー") && cpuHand.equals("チョキ")) ||
+        (userHand.equals("チョキ") && cpuHand.equals("パー")) ||
+        (userHand.equals("パー") && cpuHand.equals("グー"))) {
+      result = "勝ち";
+    } else {
+      result = "負け";
+    }
+
+    model.addAttribute("userHand", userHand);
+    model.addAttribute("cpuHand", cpuHand);
+    model.addAttribute("result", result);
+
+    return "janken.html";
   }
 
 }
