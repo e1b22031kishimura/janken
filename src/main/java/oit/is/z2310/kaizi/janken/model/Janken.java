@@ -1,7 +1,5 @@
 package oit.is.z2310.kaizi.janken.model;
 
-import org.apache.ibatis.jdbc.Null;
-
 public class Janken {
   private String username = null;
 

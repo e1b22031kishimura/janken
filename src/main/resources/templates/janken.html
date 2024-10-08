@@ -16,7 +16,9 @@
   </div>
 
   <div th:if="${userHand}">
-    <h2>対戦結果</h2>
+    <a th:href="@{/battle(hand='グー')}">グー</a>
+    <a th:href="@{/battle(hand='チョキ')}">チョキ</a>
+    <a th:href="@{/battle(hand='パー')}">パー</a>
     <p>あなたの手: [[${userHand}]]</p>
     <p>相手の手: [[${cpuHand}]]</p>
     <p>結果: [[${result}]]</p>
