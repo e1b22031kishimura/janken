@@ -1,19 +1,19 @@
 package oit.is.z2310.kaizi.janken.model;
 
 public class Janken {
-  private String username = null;
+  private String user = null;
 
   public Janken() {
   }
 
   // Getter
   public String getUsername() {
-    return username;
+    return user;
   }
 
   // Setter
-  public void setUsername(String username) {
-    this.username = username;
+  public void setUsername(String user) {
+    this.user = user;
   }
 
 }
