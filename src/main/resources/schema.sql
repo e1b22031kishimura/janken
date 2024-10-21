@@ -1,0 +1,11 @@
+CREATE TABLE users (
+    id IDENTITY PRIMARY KEY,
+    userName VARCHAR NOT NULL
+);
+CREATE TABLE matches (
+    id IDENTITY PRIMARY KEY,
+    userName1 VARCHAR NOT NULL,
+    userName2 VARCHAR NOT NULL,
+    user1Hand VARCHAR NOT NULL,
+    user2Hand VARCHAR NOT NULL
+);
