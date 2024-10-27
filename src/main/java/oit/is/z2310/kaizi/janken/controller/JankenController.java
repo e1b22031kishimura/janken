@@ -16,6 +16,8 @@ import oit.is.z2310.kaizi.janken.model.User;
 import oit.is.z2310.kaizi.janken.model.UserMapper;
 import oit.is.z2310.kaizi.janken.model.Match;
 import oit.is.z2310.kaizi.janken.model.MatchMapper;
+import oit.is.z2310.kaizi.janken.model.MatchInfo;
+import oit.is.z2310.kaizi.janken.model.MatchInfoMapper;
 
 @Controller
 // @RequestMapping("janken")
@@ -26,6 +28,9 @@ public class JankenController {
 
   @Autowired
   MatchMapper matchMapper;
+
+  @Autowired
+  MatchInfoMapper matchinfoMapper;
 
   @GetMapping("/janken")
   public String Janken(ModelMap model) {
@@ -55,14 +60,14 @@ public class JankenController {
     String loginUser = prin.getName();
     User user1 = userMapper.selectByName(loginUser);
     User user2 = userMapper.selectById(id);
-    Match match = new Match();
+    MatchInfo matchinfo = new MatchInfo();
 
-    match.setUser1(user1.getId());
-    match.setUser2(id);
-    match.setUser1Hand(userHand);
-    match.setUser2Hand(cpuHand);
+    matchinfo.setUser1(user1.getId());
+    matchinfo.setUser2(id);
+    matchinfo.setUser1Hand(userHand);
+    matchinfo.setisActive(true);
 
-    matchMapper.insertMatches(match);
+    matchinfoMapper.insertMatchInfo(matchinfo);
 
     if (userHand.equals(cpuHand)) {
       result = "引き分け";
@@ -79,7 +84,7 @@ public class JankenController {
     model.addAttribute("result", result);
     model.addAttribute("user", user2);
 
-    return "match.html";
+    return "wait.html";
   }
 
 }
