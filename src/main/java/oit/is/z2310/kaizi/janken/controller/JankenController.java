@@ -14,6 +14,8 @@ import oit.is.z2310.kaizi.janken.model.Entry;
 
 import oit.is.z2310.kaizi.janken.model.User;
 import oit.is.z2310.kaizi.janken.model.UserMapper;
+import oit.is.z2310.kaizi.janken.model.Match;
+import oit.is.z2310.kaizi.janken.model.MatchMapper;
 
 @Controller
 @RequestMapping("/janken")
@@ -21,6 +23,9 @@ public class JankenController {
 
   @Autowired
   UserMapper userMapper;
+
+  @Autowired
+  MatchMapper matchMapper;
 
   @GetMapping
   public String redirectToStep1() {
@@ -30,7 +35,10 @@ public class JankenController {
   @GetMapping("step1")
   public String Janken(ModelMap model) {
     ArrayList<String> userNames = userMapper.selectAllUserName();
+    ArrayList<Match> matchs = matchMapper.selectAllmatches();
+
     model.addAttribute("userNames", userNames);
+    model.addAttribute("matches", matchs);
 
     return "janken.html";
   }
