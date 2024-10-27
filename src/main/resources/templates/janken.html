@@ -11,11 +11,7 @@
   <h1>Janken GAME!</h1>
   Hi <span sec:authentication="name"></span><br>
   <p>エントリー</p>
-  <ul>
-    <th:block th:each="userName : ${userNames}">
-      <li th:text="${userName}"></li>
-    </th:block>
-  </ul>
+  <li th:each="user : ${users}"><a th:href="@{/match(id=${user.id})}"> [[${user.userName}]]</a></li>
   <p>試合結果</p>
   <div>
     <p th:each="match : ${matches}">

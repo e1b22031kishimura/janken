@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>Janken Game</title>
+</head>
+
+<body>
+  <div><a href="/logout">ログアウト</a></div>
+  <h1>Match</h1>
+  <h2>
+    <span sec:authentication="name"></span> VS <span th:text="${userName}"></span>
+  </h2>
+
+</body>
+
+</html>
