@@ -40,36 +40,46 @@ public class JankenController {
 
   @GetMapping("/match")
   public String Match(@RequestParam Integer id, ModelMap model) {
-    String userName = userMapper.selectById(id);
+    User user = userMapper.selectById(id);
 
-    model.addAttribute("userName", userName);
+    model.addAttribute("user", user);
 
     return "match.html";
   }
 
-  /*
-   * @GetMapping("battle")
-   * public String battle(@RequestParam("hand") String userHand, ModelMap model) {
-   * String cpuHand = "グー";
-   * String result;
-   *
-   * if (userHand.equals(cpuHand)) {
-   * result = "引き分け";
-   * } else if ((userHand.equals("グー") && cpuHand.equals("チョキ")) ||
-   * (userHand.equals("チョキ") && cpuHand.equals("パー")) ||
-   * (userHand.equals("パー") && cpuHand.equals("グー"))) {
-   * result = "勝ち";
-   * } else {
-   * result = "負け";
-   * }
-   *
-   * model.addAttribute("room", this.room);
-   * model.addAttribute("userHand", userHand);
-   * model.addAttribute("cpuHand", cpuHand);
-   * model.addAttribute("result", result);
-   *
-   * return "janken.html";
-   * }
-   */
+  @GetMapping("/fight")
+  public String fight(@RequestParam("hand") String userHand,
+      @RequestParam Integer id, ModelMap model, Principal prin) {
+    String cpuHand = "グー";
+    String result;
+    String loginUser = prin.getName();
+    User user1 = userMapper.selectByName(loginUser);
+    User user2 = userMapper.selectById(id);
+    Match match = new Match();
+
+    match.setUser1(user1.getId());
+    match.setUser2(id);
+    match.setUser1Hand(userHand);
+    match.setUser2Hand(cpuHand);
+
+    matchMapper.insertMatches(match);
+
+    if (userHand.equals(cpuHand)) {
+      result = "引き分け";
+    } else if ((userHand.equals("グー") && cpuHand.equals("チョキ")) ||
+        (userHand.equals("チョキ") && cpuHand.equals("パー")) ||
+        (userHand.equals("パー") && cpuHand.equals("グー"))) {
+      result = "勝ち";
+    } else {
+      result = "負け";
+    }
+
+    model.addAttribute("userHand", userHand);
+    model.addAttribute("cpuHand", cpuHand);
+    model.addAttribute("result", result);
+    model.addAttribute("user", user2);
+
+    return "match.html";
+  }
 
 }

@@ -16,21 +16,13 @@
   <div>
     <p th:each="match : ${matches}">
       id:<span th:text="${match.id}"></span>
-      user1:<span th:text="${match.userName1}"></span>
-      user2:<span th:text="${match.userName2}"></span>
+      user1:<span th:text="${match.user1}"></span>
+      user2:<span th:text="${match.user2}"></span>
       user1の手:<span th:text="${match.user1Hand}"></span>
       user2の手:<span th:text="${match.user2Hand}"></span>
     </p>
   </div>
-  <a th:href="@{/janken/battle(hand='グー')}">グー</a>
-  <a th:href="@{/janken/battle(hand='チョキ')}">チョキ</a>
-  <a th:href="@{/janken/battle(hand='パー')}">パー</a>
 
-  <div th:if="${userHand}">
-    <p>あなたの手: [[${userHand}]]</p>
-    <p>相手の手: [[${cpuHand}]]</p>
-    <p>結果: [[${result}]]</p>
-  </div>
 </body>
 
 </html>
