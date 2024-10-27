@@ -18,7 +18,7 @@ import oit.is.z2310.kaizi.janken.model.Match;
 import oit.is.z2310.kaizi.janken.model.MatchMapper;
 
 @Controller
-@RequestMapping("/janken")
+// @RequestMapping("janken")
 public class JankenController {
 
   @Autowired
@@ -27,45 +27,59 @@ public class JankenController {
   @Autowired
   MatchMapper matchMapper;
 
-  @GetMapping
-  public String redirectToStep1() {
-    return "redirect:/janken/step1";
-  }
-
-  @GetMapping("step1")
+  @GetMapping("/janken")
   public String Janken(ModelMap model) {
-    ArrayList<String> userNames = userMapper.selectAllUserName();
-    ArrayList<Match> matchs = matchMapper.selectAllmatches();
+    ArrayList<User> users = userMapper.selectAllUsers();
+    ArrayList<Match> matches = matchMapper.selectAllmatches();
 
-    model.addAttribute("userNames", userNames);
-    model.addAttribute("matches", matchs);
+    model.addAttribute("users", users);
+    model.addAttribute("matches", matches);
 
     return "janken.html";
   }
 
-  /*
-   * @GetMapping("battle")
-   * public String battle(@RequestParam("hand") String userHand, ModelMap model) {
-   * String cpuHand = "グー";
-   * String result;
-   *
-   * if (userHand.equals(cpuHand)) {
-   * result = "引き分け";
-   * } else if ((userHand.equals("グー") && cpuHand.equals("チョキ")) ||
-   * (userHand.equals("チョキ") && cpuHand.equals("パー")) ||
-   * (userHand.equals("パー") && cpuHand.equals("グー"))) {
-   * result = "勝ち";
-   * } else {
-   * result = "負け";
-   * }
-   *
-   * model.addAttribute("room", this.room);
-   * model.addAttribute("userHand", userHand);
-   * model.addAttribute("cpuHand", cpuHand);
-   * model.addAttribute("result", result);
-   *
-   * return "janken.html";
-   * }
-   */
+  @GetMapping("/match")
+  public String Match(@RequestParam Integer id, ModelMap model) {
+    User user = userMapper.selectById(id);
+
+    model.addAttribute("user", user);
+
+    return "match.html";
+  }
+
+  @GetMapping("/fight")
+  public String fight(@RequestParam("hand") String userHand,
+      @RequestParam Integer id, ModelMap model, Principal prin) {
+    String cpuHand = "グー";
+    String result;
+    String loginUser = prin.getName();
+    User user1 = userMapper.selectByName(loginUser);
+    User user2 = userMapper.selectById(id);
+    Match match = new Match();
+
+    match.setUser1(user1.getId());
+    match.setUser2(id);
+    match.setUser1Hand(userHand);
+    match.setUser2Hand(cpuHand);
+
+    matchMapper.insertMatches(match);
+
+    if (userHand.equals(cpuHand)) {
+      result = "引き分け";
+    } else if ((userHand.equals("グー") && cpuHand.equals("チョキ")) ||
+        (userHand.equals("チョキ") && cpuHand.equals("パー")) ||
+        (userHand.equals("パー") && cpuHand.equals("グー"))) {
+      result = "勝ち";
+    } else {
+      result = "負け";
+    }
+
+    model.addAttribute("userHand", userHand);
+    model.addAttribute("cpuHand", cpuHand);
+    model.addAttribute("result", result);
+    model.addAttribute("user", user2);
+
+    return "match.html";
+  }
 
 }
